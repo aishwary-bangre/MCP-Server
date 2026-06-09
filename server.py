@@ -3,7 +3,7 @@ from pydantic import BaseModel
 import sys
 
 from docs_tool import append_to_doc
-from gmail_tool import create_email_draft
+from gmail_tool import create_email_draft, send_email
 
 app = FastAPI(title="Google Workspace MCP Server")
 
@@ -46,6 +46,16 @@ def handle_create_email_draft(req: EmailRequest, api_key: str = None):
     
     try:
         result = create_email_draft(req.to, req.subject, req.body)
+        return {"status": "success", "message": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/send_email")
+def handle_send_email(req: EmailRequest, api_key: str = None):
+    require_approval("SEND_EMAIL", req.model_dump(), api_key)
+    
+    try:
+        result = send_email(req.to, req.subject, req.body)
         return {"status": "success", "message": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
