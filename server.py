@@ -50,6 +50,10 @@ def handle_create_email_draft(req: EmailRequest, api_key: str = None):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "message": "Groww MCP Server is running securely."}
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
