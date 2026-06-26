@@ -1,5 +1,6 @@
 credentials.json
 token.json
+#resume-point
 __pycache__/
 *.pyc
 .env
