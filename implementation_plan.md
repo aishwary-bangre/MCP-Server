@@ -41,6 +41,6 @@ The core repository structure for the server.
 
 ### Automated/Local Testing
 1. Start the server using `uvicorn server:app --reload`.
-2. Send a curl/Postman request to `/append_to_doc`. Verify the terminal halts and asks `Approve? (y/n)`.
-3. Type `y` and verify the Google Doc updates.
-4. Send a request to `/create_email_draft`, approve it, and verify the draft appears in the Gmail account.
+2. Send a POST request to `/append_to_doc?api_key=dev-secret-key`. Verify the server authorizes the request and updates the Google Doc.
+3. Send a request without the `api_key` parameter (or with an invalid one), and verify it returns a `403 Forbidden` error.
+4. Send a request to `/send_email?api_key=dev-secret-key` and verify the email is sent successfully.
